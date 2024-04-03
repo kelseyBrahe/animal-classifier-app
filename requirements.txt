@@ -1,5 +1,2 @@
-ultralytics
-scikit-learn
-pandas
-pyyaml
 flask
+ultralytics

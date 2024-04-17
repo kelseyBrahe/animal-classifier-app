@@ -1,3 +1,32 @@
+/* Parent container for page */
+.container {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Page title */
 h1 {
-    color: blue;
+    width: 100vw;
+    
+}
+
+/* Train half of page (left hand side) */
+.left {
+    width: 48vw;
+    border: 1px solid black;
+    margin-right: 0.5vw;
+}
+
+/* Results half of page (right hand side */
+.right {
+    width: 48vw;
+    border: 1px solid black;
+    margin-left: 0.5vw;
 }

@@ -16,7 +16,14 @@
             <form method="post" enctype="multipart/form-data">
                 <input type="file" name="file">
                 <br>
-                <input type="submit" value="Upload">
+                <input type="submit" value="Upload"><br>
+            </form>
+
+            <form action="{{url_for('getVals')}}" method="post" enctype="multipart/form-data">
+                <input type="checkbox" id="boundingBox" name="boundingBox" value="boundingBox">
+                <label for="boundingBox">Include Bounding Box</label>
+                <br>
+                <input type="submit" value="Process Images"><br>
             </form>
         </div>
         <!-- This is the "Results" half of the page -->

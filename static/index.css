@@ -1,3 +1,7 @@
+* {
+    font-family: Garamond, serif;
+}
+
 /* Parent container for page */
 .container {
     width: 100%;
@@ -22,6 +26,47 @@ h1 {
     width: 48vw;
     border: 1px solid black;
     margin-right: 0.5vw;
+}
+
+p {
+    font-size: 1.25em;
+}
+
+.chooseFile::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.chooseFile {
+    display: inline-block;
+    color: black;
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+    margin: 2%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 8%;
+}
+
+.submit {
+    cursor: pointer;
+    background-color: #323131;
+    color: white;
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 1% 2%;
+    font-weight: 700;
+    font-size: 10pt;
+    margin: 2%;
+    width: 20%;
 }
 
 /* Results half of page (right hand side */

@@ -13,17 +13,19 @@
         <!-- This is the "Train" half of the page -->
         <div class="left">
             <h2>Train</h2>
-            <form method="post" enctype="multipart/form-data">
-                <input type="file" name="file">
+            <form method="post" action="{{url_for('uploadFiles')}}" enctype="multipart/form-data">
+                <p>Select files for processing:</p>
+                <input type="file" name="files" directory multiple class="chooseFile">
                 <br>
-                <input type="submit" value="Upload"><br>
+                <input type="submit" value="Upload" class="submit">
+                <br>
             </form>
 
-            <form action="{{url_for('getVals')}}" method="post" enctype="multipart/form-data">
-                <input type="checkbox" id="boundingBox" name="boundingBox" value="boundingBox">
+            <form method="post" action="{{url_for('predict')}}" enctype="multipart/form-data">
+                <input type="checkbox" id="boundingBox" name="bBox">
                 <label for="boundingBox">Include Bounding Box</label>
                 <br>
-                <input type="submit" value="Process Images"><br>
+                <input type="submit" value="Process Images" class="submit"><br>
             </form>
         </div>
         <!-- This is the "Results" half of the page -->

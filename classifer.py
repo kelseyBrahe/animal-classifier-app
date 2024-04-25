@@ -32,6 +32,9 @@ def get_img_classification(vars_model, vars_source_image_path, vars_target_image
 def check_whether_target_directory_exists(dir):
     return os.path.exists(dir)
 
+def check_whether_target_directory_already_has_log_file(dir):
+    return 0
+
 if __name__=="__main__":
     vars_model = 'src/models/best.pt'
     # vars_source_image_path = '/workspaces/animal-classifier-app/src/IMG_0290.jpg'

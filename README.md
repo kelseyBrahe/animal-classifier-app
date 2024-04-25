@@ -4,13 +4,20 @@ This is the source code for the image classification app being developed by COSC
 
 ## Usage
 
-### Run the app directly on you machine
+### Run the app directly on your machine
 
 1. Ensure all dependencies listed in requirements.txt are installed
 2. Run
 ```bash
 python app.py
 ```
+**********
+To run the flask app, 
+1. run 
+```bash
+python -m flask run
+```
+2. Crtl + click on the URL provided in the terminal
 
 ### Run the app on a VSCode devcontainer
 1. Ensure devcontainer plugin is installed in your VSCode and Docker is installed on your machine

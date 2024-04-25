@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifier App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}" />
+</head>
+<body>
+    <!-- This is the container for the whole page -->
+    <div class="container">
+        <h1>Animal Classifier App</h1>
+        <!-- This is the "Train" half of the page -->
+        <div class="left">
+            <h2>Train</h2>
+            <form method="post" action="{{url_for('uploadFiles')}}" enctype="multipart/form-data">
+                <p>Select files for processing:</p>
+                <input type="file" name="files" directory multiple class="chooseFile">
+                <br>
+                <input type="submit" value="Upload" class="submit">
+                <br>
+            </form>
+
+            <form method="post" action="{{url_for('predict')}}" enctype="multipart/form-data">
+                <input type="checkbox" id="boundingBox" name="bBox">
+                <label for="boundingBox">Include Bounding Box</label>
+                <br>
+                <input type="submit" value="Process Images" class="submit"><br>
+            </form>
+        </div>
+        <!-- This is the "Results" half of the page -->
+        <div class="right">
+            <h2>Results</h2>
+        </div>
+    </div>
+</body>
+</html>

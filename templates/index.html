@@ -31,6 +31,19 @@
         <!-- This is the "Results" half of the page -->
         <div class="right">
             <h2>Results</h2>
+            <div class="row">
+                <div class="images">
+                    <img src="{{ current_img }}"></img>
+                </div>
+                <div class="buttons">
+                    <form method="post" action="{{url_for('previous')}}">
+                        <button id="previous" name="previous_img" type="submit">Previous</button>
+                    </form>
+                    <form method="post" action="{{url_for('next')}}">
+                        <button id="next" name="next_img" type="submit">Next</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>

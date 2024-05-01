@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for
 from flask import render_template
-from PIL import Image
+# from PIL import Image
+from pathlib import Path
 from werkzeug.utils import send_from_directory, secure_filename
 # import cv2
 # import tkinter as tk
@@ -9,11 +10,17 @@ from werkzeug.utils import send_from_directory, secure_filename
 import os
 from ultralytics import YOLO
 from classifer import get_img_classification, check_whether_target_directory_exists
+# from keras import load_model
 
 UPLOAD_FOLDER = '/uploads'
+IMG_COUNTER = 0
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+IMAGES = os.listdir(os.path.join(app.static_folder, "results"))
+
+# load the model
+# model = load_model("D:/PATH/TO/MODEL")
 
 @app.route("/")
 def hello_world():
@@ -26,7 +33,7 @@ def hello_world():
 # will save to the /uploads folder.
 # From here we can loop through the images to process them.
 # We will need to clean the uploads folder after processing the images.
-@app.route('/upload', methods=["GET", "POST"])
+@app.route('/upload', methods=["POST"])
 def uploadFiles():
     if request.method == "POST":
         basepath = os.path.dirname(__file__)
@@ -49,13 +56,50 @@ def uploadFiles():
 # It will need to process all of the images in the uploads folder,
 # save them to the /results folder, call a display function and then
 # clean the uploads folder.
-@app.route('/predict', methods=["GET", "POST"])     
+@app.route('/predict', methods=["POST"])     
 def predict():
     if request.method == "POST":
         # this is the value of the bounding box
         boundingBox = request.form.get("bBox")
         print(boundingBox == "on")
-    return render_template("index.html")
+
+        # run image prediction and save to results
+        # get_img_classification("src/models/best.pt", "/uploads", "/workspaces/animal-classifier-app/src", "/results")
+
+        # save information for displaying images
+        global IMAGES 
+        IMAGES = os.listdir(os.path.join(app.static_folder, "results"))
+        print(len(IMAGES))
+        global IMG_COUNTER
+        IMG_COUNTER = 0
+        current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+
+        # clear the uploads folder
+        [f.unlink() for f in Path(os.path.join(os.path.dirname(__file__), 'uploads')).glob("*") if f.is_file()]
+
+    return render_template("index.html", current_img=current_img)
+
+# Navigates to the previous image, keeping track of place in results folder
+@app.route('/previous_img', methods=["POST"])
+def previous():
+    global IMG_COUNTER
+    global IMAGES
+    if IMG_COUNTER != 0:
+        IMG_COUNTER = IMG_COUNTER - 1
+    
+    current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+    return render_template("index.html", current_img=current_img)
+
+# Navigates to the next image, keeping track of place in results folder
+@app.route('/next_img', methods=["POST"])
+def next():
+    global IMG_COUNTER
+    global IMAGES
+    if IMG_COUNTER != len(IMAGES) - 1:
+        IMG_COUNTER = IMG_COUNTER + 1
+    
+    current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+    return render_template("index.html", current_img=current_img)
 
 
 # """Interacting with the classifier module"""

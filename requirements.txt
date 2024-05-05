@@ -1,2 +1,4 @@
 flask
 ultralytics
+pillow 
+piexif

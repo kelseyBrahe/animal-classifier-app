@@ -14,6 +14,7 @@ from classifer import get_img_classification, check_whether_target_directory_exi
 
 UPLOAD_FOLDER = '/uploads'
 IMG_COUNTER = 0
+SUBFOLDER = ''
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -54,8 +55,7 @@ def uploadFiles():
 # the methods for image prediction.
 # If the bounding box is selected 'boundingBox' will equal "on", else None
 # It will need to process all of the images in the uploads folder,
-# save them to the /results folder, call a display function and then
-# clean the uploads folder.
+# save them to the /results folder
 @app.route('/predict', methods=["POST"])     
 def predict():
     if request.method == "POST":
@@ -64,20 +64,38 @@ def predict():
         print(boundingBox == "on")
 
         # run image prediction and save to results
-        # get_img_classification("src/models/best.pt", "/uploads", "/workspaces/animal-classifier-app/src", "/results")
+        print(check_whether_target_directory_exists(os.path.join(app.static_folder, "results")))
+        # get_img_classification("src/models/best.pt", "/uploads", os.path(app.static_folder), "/results")
 
-        # save information for displaying images
-        global IMAGES 
-        IMAGES = os.listdir(os.path.join(app.static_folder, "results"))
-        print(len(IMAGES))
-        global IMG_COUNTER
-        IMG_COUNTER = 0
-        current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+        # get list of all subdirectories in /results
+        subfolders = os.listdir(os.path.join(app.static_folder, "results"))
 
         # clear the uploads folder
         [f.unlink() for f in Path(os.path.join(os.path.dirname(__file__), 'uploads')).glob("*") if f.is_file()]
 
+    return render_template("index.html", subfolders=subfolders)
+
+
+# Display images in selected subfolder
+@app.route('/display', methods=["POST"])
+def display():
+    subfolder = request.form['subfolder']
+    # save information for displaying images
+    global IMAGES 
+    IMAGES = os.listdir(os.path.join(app.static_folder, "results/" + subfolder))
+    global IMG_COUNTER
+    IMG_COUNTER = 0
+    global SUBFOLDER
+    SUBFOLDER = subfolder
+    current_img = "/static/results/" + SUBFOLDER + "/" + IMAGES[IMG_COUNTER]
+
     return render_template("index.html", current_img=current_img)
+
+@app.route('/back', methods=["POST"])
+def back():
+    # get list of all subdirectories in /results
+    subfolders = os.listdir(os.path.join(app.static_folder, "results"))
+    return render_template("index.html", subfolders=subfolders)
 
 # Navigates to the previous image, keeping track of place in results folder
 @app.route('/previous_img', methods=["POST"])
@@ -87,7 +105,7 @@ def previous():
     if IMG_COUNTER != 0:
         IMG_COUNTER = IMG_COUNTER - 1
     
-    current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+    current_img = "/static/results/" + SUBFOLDER + "/" + IMAGES[IMG_COUNTER]
     return render_template("index.html", current_img=current_img)
 
 # Navigates to the next image, keeping track of place in results folder
@@ -98,7 +116,7 @@ def next():
     if IMG_COUNTER != len(IMAGES) - 1:
         IMG_COUNTER = IMG_COUNTER + 1
     
-    current_img = "/static/results/" + IMAGES[IMG_COUNTER]
+    current_img = "/static/results/" + SUBFOLDER + "/" + IMAGES[IMG_COUNTER]
     return render_template("index.html", current_img=current_img)
 
 

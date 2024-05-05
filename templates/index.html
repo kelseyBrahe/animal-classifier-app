@@ -12,11 +12,14 @@
         <h1>Animal Classifier App</h1>
         <!-- This is the "Train" half of the page -->
         <div class="left">
+            {% if current_img %}
+            <h2>STATS</h2>
+            {% else %}
             <h2>Train</h2>
             <form method="post" action="{{url_for('uploadFiles')}}" enctype="multipart/form-data">
                 <p>Select files for processing:</p>
                 <input type="file" name="files" directory multiple class="chooseFile">
-                <br>
+                <p>If you have manually added images to the uploads folder, go ahead and hit 'Process Images'.</p>
                 <input type="submit" value="Upload" class="submit">
                 <br>
             </form>
@@ -27,22 +30,39 @@
                 <br>
                 <input type="submit" value="Process Images" class="submit"><br>
             </form>
+            {% endif %}
         </div>
         <!-- This is the "Results" half of the page -->
         <div class="right">
             <h2>Results</h2>
             <div class="row">
+                {% if subfolders %}
+                
+                {% for folder in subfolders %}
+                    <form id="subfolders" method="post" action="{{ url_for('display')}}">
+                        <button class="subfolders" type="submit">{{ folder }}</button>
+                        <input type="hidden" name="subfolder" value="{{ folder }}" />
+                    </form>
+                {% endfor %}
+                
+                {% endif %}
+
+                {% if current_img %}
+                <div class="buttons">
+                    <form method="post" action="{{ url_for('back')}}">
+                        <button class="back" type="submit">Back to folders</button>
+                    </form>
+                    <form method="post" action="{{url_for('previous')}}">
+                        <button id="previous" name="previous_img" type="submit">Previous Img</button>
+                    </form>
+                    <form method="post" action="{{url_for('next')}}">
+                        <button id="next" name="next_img" type="submit">Next Img</button>
+                    </form>
+                </div>
                 <div class="images">
                     <img src="{{ current_img }}"></img>
                 </div>
-                <div class="buttons">
-                    <form method="post" action="{{url_for('previous')}}">
-                        <button id="previous" name="previous_img" type="submit">Previous</button>
-                    </form>
-                    <form method="post" action="{{url_for('next')}}">
-                        <button id="next" name="next_img" type="submit">Next</button>
-                    </form>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>

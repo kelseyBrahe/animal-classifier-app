@@ -35,6 +35,11 @@
         <!-- This is the "Results" half of the page -->
         <div class="right">
             <h2>Results</h2>
+            {% if not subfolders and not current_img %}
+            <form method="post" action="{{url_for('predict')}}" enctype="multipart/form-data">
+                <button class="submit" type="submit">View results from previous sessions</button>
+            </form>
+            {% endif %}
             <div class="row">
                 {% if subfolders %}
                 

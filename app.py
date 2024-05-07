@@ -61,11 +61,14 @@ def predict():
     if request.method == "POST":
         # this is the value of the bounding box
         boundingBox = request.form.get("bBox")
-        print(boundingBox == "on")
 
         # run image prediction and save to results
-        print(check_whether_target_directory_exists(os.path.join(app.static_folder, "results")))
-        # get_img_classification("src/models/best.pt", "/uploads", os.path(app.static_folder), "/results")
+        source_directory = os.path.join(os.path.dirname(__file__), 'uploads')
+        results_directory = os.path.join(app.static_folder, "results")
+        print(check_whether_target_directory_exists(source_directory))
+        print(check_whether_target_directory_exists(results_directory))
+        results = get_img_classification('src/models/best.pt', source_directory, app.static_folder, "results")
+        print(results)
 
         # get list of all subdirectories in /results
         subfolders = os.listdir(os.path.join(app.static_folder, "results"))
@@ -75,6 +78,11 @@ def predict():
 
     return render_template("index.html", subfolders=subfolders)
 
+@app.route('/view_images', methods=["POST"])
+def view():
+    # get list of all subdirectories in /results
+    subfolders = os.listdir(os.path.join(app.static_folder, "results"))
+    return render_template("index.html", subfolders=subfolders)
 
 # Display images in selected subfolder
 @app.route('/display', methods=["POST"])

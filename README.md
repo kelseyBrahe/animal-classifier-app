@@ -7,6 +7,9 @@ This is the source code for the image classification app being developed by COSC
 ### Run the app directly on your machine
 
 1. Ensure all dependencies listed in requirements.txt are installed
+```bash
+pip install -r requirements.txt
+```
 2. Run
 ```bash
 python app.py

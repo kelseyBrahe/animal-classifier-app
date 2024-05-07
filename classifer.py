@@ -123,8 +123,8 @@ def cleanup_image__output_directory(vars_target_image_path, vars_target_director
 if __name__=="__main__":
     """FOR TESTING PURPOSES"""
     vars_model = 'src/models/best.pt'
-    # vars_source_image_path = '/workspaces/animal-classifier-app/src/IMG_0290.jpg'
-    vars_source_image_path = '/workspaces/animal-classifier-app/src/few_images'
+    vars_source_image_path = '/workspaces/animal-classifier-app/src/few_images/IMG_0291.jpg'
+    # vars_source_image_path = '/workspaces/animal-classifier-app/src/few_images'
     vars_target_image_path = '/workspaces/animal-classifier-app/src'
     vars_target_directory = 'output'
     results = get_img_classification(vars_model, vars_source_image_path, vars_target_image_path, vars_target_directory)

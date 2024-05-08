@@ -65,10 +65,7 @@ def predict():
         # run image prediction and save to results
         source_directory = os.path.join(os.path.dirname(__file__), 'uploads')
         results_directory = os.path.join(app.static_folder, "results")
-        print(check_whether_target_directory_exists(source_directory))
-        print(check_whether_target_directory_exists(results_directory))
         results = get_img_classification('src/models/best.pt', source_directory, app.static_folder, "results")
-        print(results)
 
         # get list of all subdirectories in /results
         subfolders = os.listdir(os.path.join(app.static_folder, "results"))

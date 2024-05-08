@@ -6,12 +6,30 @@ import os
 import requests
 from classifer import get_img_classification
 
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = 'uploads'
+RESULTS_FOLDER = 'results'
 IMG_COUNTER = 0
 SUBFOLDER = ''
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['RESULTS_FOLDER'] = RESULTS_FOLDER
+
+def ensure_folders_exist():
+    # Create uploads folder if it doesn't exist
+    uploads_folder = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
+    if not os.path.exists(uploads_folder):
+        os.makedirs(uploads_folder)
+        print(f"Created '{uploads_folder}' folder.")
+
+    # Create results folder if it doesn't exist
+    results_folder = os.path.join(app.static_folder, app.config['RESULTS_FOLDER'])
+    if not os.path.exists(results_folder):
+        os.makedirs(results_folder)
+        print(f"Created '{results_folder}' folder.")
+
+ensure_folders_exist()
+
 IMAGES = os.listdir(os.path.join(app.static_folder, "results"))
 
 @app.route("/")

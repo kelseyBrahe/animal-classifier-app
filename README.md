@@ -21,6 +21,8 @@ To run the flask app,
 python -m flask run
 ```
 2. Crtl + click on the URL provided in the terminal
+3. REMEMBER: to select all images in a directory, select one image and then CTRL+A to 
+speed up the upload process.
 
 ### Run the app on a VSCode devcontainer
 1. Ensure devcontainer plugin is installed in your VSCode and Docker is installed on your machine

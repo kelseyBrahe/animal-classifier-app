@@ -14,6 +14,10 @@
         <div class="left">
             {% if current_img %}
             <h2>STATS</h2>
+            <h3>ANIMAL: {% if animal %} {{animal}} {% endif %}</h3>
+            <h3>CONFIDENCE SCORE: {% if confidence_score %} {{confidence_score}} {% endif %}</h3>
+            <h3>BOUNDING BOX COORDINATES: {% if box_coordinates_normalised %} {{box_coordinates_normalised}} {% endif %}</h3>
+            <h3>IMAGE FILENAME: {% if image_filename %} {{image_filename}} {% endif %}</h3>
             {% else %}
             <h2>Train</h2>
             <form method="post" action="{{url_for('uploadFiles')}}" enctype="multipart/form-data">
@@ -24,19 +28,27 @@
                 <br>
             </form>
 
+            {% if empty %}
+            <h3 class="empty">There are no images in the upload folder for processing.</h3>
+            {% endif %}
+            {% if ready %}
+            <h3>Ready to process uploaded images</h3>
+            {% endif %}
             <form method="post" action="{{url_for('predict')}}" enctype="multipart/form-data">
-                <input type="checkbox" id="boundingBox" name="bBox">
-                <label for="boundingBox">Include Bounding Box</label>
-                <br>
-                <input type="submit" value="Process Images" class="submit"><br>
+                <input type="submit" value="Process Images" class="submit {{'ready' if ready}}"><br>
             </form>
+
+            {% if complete %}
+            <h3>Processing Complete</h3>
+            {% endif %}
+
             {% endif %}
         </div>
         <!-- This is the "Results" half of the page -->
         <div class="right">
             <h2>Results</h2>
             {% if not subfolders and not current_img %}
-            <form method="post" action="{{url_for('predict')}}" enctype="multipart/form-data">
+            <form method="post" action="{{url_for('view')}}" enctype="multipart/form-data">
                 <button class="submit" type="submit">View results from previous sessions</button>
             </form>
             {% endif %}

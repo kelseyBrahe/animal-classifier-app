@@ -70,6 +70,14 @@ p {
     width: 20%;
 }
 
+.empty {
+    color: red;
+}
+
+.ready {
+    background-color: rgb(7, 90, 7);
+}
+
 /* Results half of page (right hand side) */
 .right {
     width: 48vw;

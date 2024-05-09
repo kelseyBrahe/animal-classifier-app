@@ -19,7 +19,7 @@
             <h3>BOUNDING BOX COORDINATES: {% if box_coordinates_normalised %} {{box_coordinates_normalised}} {% endif %}</h3>
             <h3>IMAGE FILENAME: {% if image_filename %} {{image_filename}} {% endif %}</h3>
             {% else %}
-            <h2>Train</h2>
+            <h2>Process Images</h2>
             <form method="post" action="{{url_for('uploadFiles')}}" enctype="multipart/form-data">
                 <p>Select files for processing:</p>
                 <input type="file" name="files" directory multiple class="chooseFile">

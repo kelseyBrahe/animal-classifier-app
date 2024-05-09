@@ -3,7 +3,7 @@ from flask import render_template
 from pathlib import Path
 from werkzeug.utils import secure_filename
 import os
-import requests
+import shutil
 from classifer import get_img_classification
 
 UPLOAD_FOLDER = 'uploads'
@@ -75,6 +75,12 @@ def predict():
         if(len(os.listdir(source_directory)) == 0):
             return render_template("index.html", empty=True)
         else:
+            # Iterate through subdirectories and move files to uploads folder
+            for root, dirs, files in os.walk(source_directory):
+                for file in files:
+                    src_path = os.path.join(root, file)
+                    dst_path = os.path.join(source_directory, file)
+                    shutil.move(src_path, dst_path)
             results = get_img_classification('src/models/best.pt', source_directory, app.static_folder, "results")
             # get statistics
             for result in results.get('boxes'):
@@ -98,7 +104,7 @@ def predict():
             # get list of all subdirectories in /results
             subfolders = os.listdir(os.path.join(app.static_folder, "results"))
             # clear the uploads folder
-            [f.unlink() for f in Path(os.path.join(os.path.dirname(__file__), 'uploads')).glob("*") if f.is_file()]
+            [f.unlink() if f.is_file() else os.rmdir(f) for f in Path(os.path.join(os.path.dirname(__file__), 'uploads')).rglob("*") if f.is_file() or os.path.isdir(f)]
             
             return render_template("index.html", subfolders=subfolders, complete=True)
 
